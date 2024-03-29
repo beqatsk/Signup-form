@@ -4,28 +4,32 @@ function App() {
   return (
     <>
       <Container>
-        <Title>Learn to code by watching others</Title>
-        <Paragraph>
-          See how experienced developers solve problems in real-time. Watching
-          scripted tutorials is great, but understanding how developers think is
-          invaluable.
-        </Paragraph>
-        <PriceCard>
-          <PriceText>
-            <PriceSpan>Try it free 7 days</PriceSpan> then $20/mo. thereafter
-          </PriceText>
-        </PriceCard>
-        <FormCard>
-          <NameInput placeholder="First Name"></NameInput>
-          <NameInput placeholder="Last Name"></NameInput>
-          <NameInput placeholder="Email Address"></NameInput>
-          <NameInput placeholder="Password"></NameInput>
-          <Button>CLAIM YOUR FREE TRIAL</Button>
-          <AboutText>
-            By clicking the button, you are agreeing to our{" "}
-            <AboutSpan>Terms and Services</AboutSpan>
-          </AboutText>
-        </FormCard>
+        <Part>
+          <Title>Learn to code by watching others</Title>
+          <Paragraph>
+            See how experienced developers solve problems in real-time. Watching
+            scripted tutorials is great, but understanding how developers think
+            is invaluable.
+          </Paragraph>
+        </Part>
+        <Part>
+          <PriceCard>
+            <PriceText>
+              <PriceSpan>Try it free 7 days</PriceSpan> then $20/mo. thereafter
+            </PriceText>
+          </PriceCard>
+          <FormCard>
+            <NameInput placeholder="First Name"></NameInput>
+            <NameInput placeholder="Last Name"></NameInput>
+            <NameInput placeholder="Email Address"></NameInput>
+            <NameInput placeholder="Password"></NameInput>
+            <Button>CLAIM YOUR FREE TRIAL</Button>
+            <AboutText>
+              By clicking the button, you are agreeing to our{" "}
+              <AboutSpan>Terms and Services</AboutSpan>
+            </AboutText>
+          </FormCard>
+        </Part>
       </Container>
     </>
   );
@@ -42,6 +46,19 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media (min-width: 768px) {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+  }
+`;
+const Part = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 const Title = styled.h1`
   font-size: 28px;
@@ -51,6 +68,13 @@ const Title = styled.h1`
   color: white;
   text-align: center;
   margin-bottom: 16px;
+
+  @media (min-width: 768px) {
+    font-size: 50px;
+    line-height: 1.1;
+    letter-spacing: -0.52px;
+    width: 525px;
+  }
 `;
 const Paragraph = styled.p`
   font-size: 16px;
@@ -58,7 +82,7 @@ const Paragraph = styled.p`
   line-height: 1.63;
   color: white;
   text-align: center;
-  margin-bottom: 64px;
+  margin-bottom: 30px;
 `;
 const PriceCard = styled.div`
   width: 100%;
@@ -122,8 +146,6 @@ const Button = styled.button`
   }
 `;
 const AboutText = styled.p`
-  width: 249px;
-  height: 42px;
   margin: 8px 15px 0;
   font-size: 13px;
   font-weight: 500;
