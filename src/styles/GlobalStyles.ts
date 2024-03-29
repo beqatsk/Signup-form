@@ -7,10 +7,12 @@ const GlobalStyles = createGlobalStyle`
     box-sizing: border-box
 }
 body{
-    font-family: "Manrope", sans-serif;
+    font-family: "Poppins", sans-serif;
+    max-width: 100%;
     min-height: 100vh;
     background-color: white;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
