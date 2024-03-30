@@ -1,6 +1,31 @@
 import styled from "styled-components";
+import { FormEvent, useState, ChangeEvent } from "react";
 
+interface FormDataType {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
 function App() {
+  const [formData, setFormDate] = useState<FormDataType>({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+  };
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    setFormDate({
+      ...formData,
+      [name]: value,
+    });
+  };
   return (
     <>
       <Container>
@@ -19,11 +44,39 @@ function App() {
             </PriceText>
           </PriceCard>
           <FormCard>
-            <NameInput placeholder="First Name"></NameInput>
-            <NameInput placeholder="Last Name"></NameInput>
-            <NameInput placeholder="Email Address"></NameInput>
-            <NameInput placeholder="Password"></NameInput>
-            <Button>CLAIM YOUR FREE TRIAL</Button>
+            <form onSubmit={handleSubmit}>
+              <NameInput
+                placeholder="First Name"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleInputChange}
+              />
+
+              <Error>FirstName cannot be empty</Error>
+              <NameInput
+                placeholder="Last Name"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleInputChange}
+              />
+              <Error>LastName cannot be empty</Error>
+              <NameInput
+                placeholder="Email Address"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+              />
+              <Error> Looks like this is not an email</Error>
+              <NameInput
+                placeholder="Password"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+              />
+              <Error>Password cannot be empty</Error>
+              <Button type="submit">CLAIM YOUR FREE TRIAL</Button>
+            </form>
+
             <AboutText>
               By clicking the button, you are agreeing to our{" "}
               <AboutSpan>Terms and Services</AboutSpan>
@@ -36,6 +89,7 @@ function App() {
 }
 
 export default App;
+
 const Container = styled.div`
   background-image: url(/images/background.png);
   width: 375px;
@@ -73,7 +127,7 @@ const Title = styled.h1`
     font-size: 50px;
     line-height: 1.1;
     letter-spacing: -0.52px;
-    width: 525px;
+    max-width: 525px;
   }
 `;
 const Paragraph = styled.p`
@@ -112,6 +166,7 @@ const FormCard = styled.div`
   margin-top: 24px;
 `;
 const NameInput = styled.input`
+  position: relative;
   width: 100%;
   height: 56px;
   padding-left: 19.4px;
@@ -122,7 +177,8 @@ const NameInput = styled.input`
   text-align: left;
   color: #3d3b48;
   border-radius: 10px;
-  margin-bottom: 16px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   border: 1px solid grey;
   &::placeholder {
     font-size: 20px;
@@ -137,6 +193,7 @@ const Button = styled.button`
   color: white;
   font-size: 15px;
   font-weight: 500;
+  margin-top: 10px;
   letter-spacing: 1px;
   background-color: #38cc8b;
   cursor: pointer;
@@ -157,3 +214,18 @@ const AboutSpan = styled.span`
   color: red;
   cursor: pointer;
 `;
+const Error = styled.span`
+  width: 158px;
+  color: red;
+  font-size: 12px;
+  text-align: right;
+  margin-bottom: 20px;
+`;
+// const ErrorImage = styled.div`
+//   background-image: url(/images/errorImage.png);
+//   width: 24px;
+//   height: 24px;
+//   position: absolute;
+
+//   left: 100px;
+// `;
