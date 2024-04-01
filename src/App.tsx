@@ -1,31 +1,39 @@
 import styled from "styled-components";
-import { FormEvent, useState, ChangeEvent } from "react";
+import { FormEvent, useState } from "react";
 
-interface FormDataType {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-}
+// interface FormDataType {
+//   firstName: string;
+//   lastName: string;
+//   email: string;
+//   password: string;
+// }
 function App() {
-  const [formData, setFormDate] = useState<FormDataType>({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-  });
-
+  //   const [formData, setFormDate] = useState<FormDataType>({
+  //     firstName: "",
+  //     lastName: "",
+  //     email: "",
+  //     password: "",
+  //   });
+  const [firstName, setFirstName] = useState<string>("");
+  const [firstNameError, setFirstNameError] = useState("");
+  const [lastName, setLastName] = useState<string>("");
+  const [lastNameError, setLastNameError] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [emailError, setEmailError] = useState("");
+  const [password, setPassword] = useState<string>("");
+  const [passwordError, setPasswordError] = useState("");
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!firstName) setFirstNameError("input  cannot be empty");
+    if (!lastName) setLastNameError("input  cannot be empty");
+    if (!email) setEmailError("input  cannot be empty");
+    if (!password) setPasswordError("input  cannot be empty");
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setPassword("");
   };
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
 
-    setFormDate({
-      ...formData,
-      [name]: value,
-    });
-  };
   return (
     <>
       <Container>
@@ -48,32 +56,48 @@ function App() {
               <NameInput
                 placeholder="First Name"
                 name="firstName"
-                value={formData.firstName}
-                onChange={handleInputChange}
+                value={firstName}
+                onChange={(e) => {
+                  setFirstName(e.target.value);
+                  setFirstNameError("");
+                }}
               />
-
-              <Error>FirstName cannot be empty</Error>
+              {/* <ErrorImage /> */}
+              <Error>{firstNameError}</Error>
               <NameInput
                 placeholder="Last Name"
                 name="lastName"
-                value={formData.lastName}
-                onChange={handleInputChange}
+                value={lastName}
+                onChange={(e) => {
+                  setLastName(e.target.value);
+                  setLastNameError("");
+                }}
               />
-              <Error>LastName cannot be empty</Error>
+              {/* <ErrorImage /> */}
+              <Error>{lastNameError}</Error>
               <NameInput
-                placeholder="Email Address"
+                placeholder="beqa.tskhvediani@gmail.com"
                 name="email"
-                value={formData.email}
-                onChange={handleInputChange}
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setEmailError("");
+                }}
               />
-              <Error> Looks like this is not an email</Error>
+              {/* <ErrorImage /> */}
+              <Error>{emailError}</Error>
               <NameInput
                 placeholder="Password"
                 name="password"
-                value={formData.password}
-                onChange={handleInputChange}
+                type="password"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setPasswordError("");
+                }}
               />
-              <Error>Password cannot be empty</Error>
+              {/* <ErrorImage /> */}
+              <Error>{passwordError}</Error>
               <Button type="submit">CLAIM YOUR FREE TRIAL</Button>
             </form>
 
@@ -158,7 +182,7 @@ const PriceSpan = styled.span`
   font-weight: 700;
 `;
 const FormCard = styled.div`
-  width: 100%;
+  max-width: 768px;
   padding: 24px;
   border-radius: 10px;
   box-shadow: 0 8px 0 0 rgba(0, 0, 0, 0.15);
@@ -215,17 +239,13 @@ const AboutSpan = styled.span`
   cursor: pointer;
 `;
 const Error = styled.span`
-  width: 158px;
   color: red;
   font-size: 12px;
-  text-align: right;
-  margin-bottom: 20px;
 `;
 // const ErrorImage = styled.div`
 //   background-image: url(/images/errorImage.png);
 //   width: 24px;
 //   height: 24px;
 //   position: absolute;
-
-//   left: 100px;
+//   right: 80px;
 // `;
