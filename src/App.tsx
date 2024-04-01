@@ -1,37 +1,77 @@
 import styled from "styled-components";
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, ChangeEvent } from "react";
 
-// interface FormDataType {
-//   firstName: string;
-//   lastName: string;
-//   email: string;
-//   password: string;
-// }
+interface FormDataType {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
 function App() {
-  //   const [formData, setFormDate] = useState<FormDataType>({
-  //     firstName: "",
-  //     lastName: "",
-  //     email: "",
-  //     password: "",
-  //   });
-  const [firstName, setFirstName] = useState<string>("");
-  const [firstNameError, setFirstNameError] = useState("");
-  const [lastName, setLastName] = useState<string>("");
-  const [lastNameError, setLastNameError] = useState("");
-  const [email, setEmail] = useState<string>("");
-  const [emailError, setEmailError] = useState("");
-  const [password, setPassword] = useState<string>("");
-  const [passwordError, setPasswordError] = useState("");
+  const [inputValues, setInputValues] = useState<FormDataType>({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
+  // const [firstName, setFirstName] = useState<string>("");
+  // const [firstNameError, setFirstNameError] = useState("");
+  // const [lastName, setLastName] = useState<string>("");
+  // const [lastNameError, setLastNameError] = useState("");
+  // const [email, setEmail] = useState<string>("");
+  // const [emailError, setEmailError] = useState("");
+  // const [password, setPassword] = useState<string>("");
+  // const [passwordError, setPasswordError] = useState("");
+  const [firstNameError, setFirstNameError] = useState(false);
+  const [lastNameError, setLastNameError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!firstName) setFirstNameError("input  cannot be empty");
-    if (!lastName) setLastNameError("input  cannot be empty");
-    if (!email) setEmailError("input  cannot be empty");
-    if (!password) setPasswordError("input  cannot be empty");
-    setFirstName("");
-    setLastName("");
-    setEmail("");
-    setPassword("");
+
+    const regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/;
+    let globalError = false;
+
+    if (!inputValues.firstName) {
+      setFirstNameError(true);
+      globalError = true;
+    }
+
+    if (!inputValues.lastName) {
+      setLastNameError(true);
+      globalError = true;
+    }
+
+    if (!regex.test(inputValues.email)) {
+      setEmailError(true);
+      globalError = true;
+    }
+
+    if (!inputValues.password) {
+      setPasswordError(true);
+      globalError = true;
+    }
+
+    if (!globalError) {
+      setInputValues({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+      });
+    }
+  };
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    name == "firstName" && setFirstNameError(false);
+    name == "lastName" && setLastNameError(false);
+    name == "email" && setEmailError(false);
+    name == "password" && setPasswordError(false);
+
+    setInputValues({
+      ...inputValues,
+      [name]: value,
+    });
   };
 
   return (
@@ -56,48 +96,40 @@ function App() {
               <NameInput
                 placeholder="First Name"
                 name="firstName"
-                value={firstName}
-                onChange={(e) => {
-                  setFirstName(e.target.value);
-                  setFirstNameError("");
-                }}
+                value={inputValues.firstName}
+                onChange={handleChange}
+                error={firstNameError}
               />
-              {/* <ErrorImage /> */}
-              <Error>{firstNameError}</Error>
+              <ErrorImage />
+              <Error error={firstNameError}>First Name cannot be empty</Error>
               <NameInput
                 placeholder="Last Name"
                 name="lastName"
-                value={lastName}
-                onChange={(e) => {
-                  setLastName(e.target.value);
-                  setLastNameError("");
-                }}
+                value={inputValues.lastName}
+                onChange={handleChange}
+                error={lastNameError}
               />
               {/* <ErrorImage /> */}
-              <Error>{lastNameError}</Error>
+              <Error error={lastNameError}>Last Name cannot be empty</Error>
               <NameInput
                 placeholder="beqa.tskhvediani@gmail.com"
                 name="email"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  setEmailError("");
-                }}
+                value={inputValues.email}
+                onChange={handleChange}
+                error={emailError}
               />
               {/* <ErrorImage /> */}
-              <Error>{emailError}</Error>
+              <Error error={emailError}>Looks like this is not an email</Error>
               <NameInput
                 placeholder="Password"
                 name="password"
                 type="password"
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                  setPasswordError("");
-                }}
+                value={inputValues.password}
+                onChange={handleChange}
+                error={passwordError}
               />
               {/* <ErrorImage /> */}
-              <Error>{passwordError}</Error>
+              <Error error={passwordError}>Password cannot be empty</Error>
               <Button type="submit">CLAIM YOUR FREE TRIAL</Button>
             </form>
 
@@ -189,7 +221,7 @@ const FormCard = styled.div`
   background-color: white;
   margin-top: 24px;
 `;
-const NameInput = styled.input`
+const NameInput = styled.input<{ error?: boolean }>`
   position: relative;
   width: 100%;
   height: 56px;
@@ -203,7 +235,7 @@ const NameInput = styled.input`
   border-radius: 10px;
   margin-top: 10px;
   margin-bottom: 10px;
-  border: 1px solid grey;
+  border: ${(props) => (props.error ? "1px solid red" : "1px solid grey")};
   &::placeholder {
     font-size: 20px;
     opacity: 0.75;
@@ -238,14 +270,15 @@ const AboutSpan = styled.span`
   color: red;
   cursor: pointer;
 `;
-const Error = styled.span`
+const Error = styled.span<{ error: boolean }>`
   color: red;
   font-size: 12px;
+  display: ${(props) => (props.error ? "block" : "none")};
 `;
-// const ErrorImage = styled.div`
-//   background-image: url(/images/errorImage.png);
-//   width: 24px;
-//   height: 24px;
-//   position: absolute;
-//   right: 80px;
-// `;
+const ErrorImage = styled.div`
+  background-image: url(/images/errorImage.png);
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  right: 80px;
+`;
