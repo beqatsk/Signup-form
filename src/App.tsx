@@ -14,18 +14,12 @@ function App() {
     email: "",
     password: "",
   });
-  // const [firstName, setFirstName] = useState<string>("");
-  // const [firstNameError, setFirstNameError] = useState("");
-  // const [lastName, setLastName] = useState<string>("");
-  // const [lastNameError, setLastNameError] = useState("");
-  // const [email, setEmail] = useState<string>("");
-  // const [emailError, setEmailError] = useState("");
-  // const [password, setPassword] = useState<string>("");
-  // const [passwordError, setPasswordError] = useState("");
+
   const [firstNameError, setFirstNameError] = useState(false);
   const [lastNameError, setLastNameError] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -100,7 +94,6 @@ function App() {
                 onChange={handleChange}
                 error={firstNameError}
               />
-              <ErrorImage />
               <Error error={firstNameError}>First Name cannot be empty</Error>
               <NameInput
                 placeholder="Last Name"
@@ -109,16 +102,15 @@ function App() {
                 onChange={handleChange}
                 error={lastNameError}
               />
-              {/* <ErrorImage /> */}
               <Error error={lastNameError}>Last Name cannot be empty</Error>
               <NameInput
-                placeholder="beqa.tskhvediani@gmail.com"
+                placeholder="beqa.tskhve@gmail.com"
                 name="email"
                 value={inputValues.email}
                 onChange={handleChange}
                 error={emailError}
               />
-              {/* <ErrorImage /> */}
+
               <Error error={emailError}>Looks like this is not an email</Error>
               <NameInput
                 placeholder="Password"
@@ -128,11 +120,9 @@ function App() {
                 onChange={handleChange}
                 error={passwordError}
               />
-              {/* <ErrorImage /> */}
               <Error error={passwordError}>Password cannot be empty</Error>
               <Button type="submit">CLAIM YOUR FREE TRIAL</Button>
             </form>
-
             <AboutText>
               By clicking the button, you are agreeing to our{" "}
               <AboutSpan>Terms and Services</AboutSpan>
@@ -148,7 +138,7 @@ export default App;
 
 const Container = styled.div`
   background-image: url(/images/background.png);
-  width: 375px;
+  width: 100%;
   min-height: 100vh;
   padding: 50px 24px 68px;
   background-position: center;
@@ -222,7 +212,13 @@ const FormCard = styled.div`
   margin-top: 24px;
 `;
 const NameInput = styled.input<{ error?: boolean }>`
-  position: relative;
+  background-image: url(/images/errorImage.png);
+  background-image: ${(props) =>
+    props.error ? "url(/images/errorImage.png)" : "none"};
+  background-position: right;
+  background-repeat: no-repeat;
+  width: 24px;
+  height: 24px;
   width: 100%;
   height: 56px;
   padding-left: 19.4px;
@@ -274,11 +270,4 @@ const Error = styled.span<{ error: boolean }>`
   color: red;
   font-size: 12px;
   display: ${(props) => (props.error ? "block" : "none")};
-`;
-const ErrorImage = styled.div`
-  background-image: url(/images/errorImage.png);
-  width: 24px;
-  height: 24px;
-  position: absolute;
-  right: 80px;
 `;
