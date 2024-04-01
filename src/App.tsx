@@ -148,7 +148,6 @@ const Container = styled.div`
   align-items: center;
 
   @media (min-width: 768px) {
-    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -156,6 +155,7 @@ const Container = styled.div`
   }
 `;
 const Part = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -212,16 +212,13 @@ const FormCard = styled.div`
   margin-top: 24px;
 `;
 const NameInput = styled.input<{ error?: boolean }>`
-  background-image: url(/images/errorImage.png);
   background-image: ${(props) =>
     props.error ? "url(/images/errorImage.png)" : "none"};
   background-position: right;
   background-repeat: no-repeat;
-  width: 24px;
-  height: 24px;
   width: 100%;
   height: 56px;
-  padding-left: 19.4px;
+  padding-left: 19px;
   font-size: 20px;
   font-weight: 500;
   line-height: 1.86;
